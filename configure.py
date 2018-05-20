@@ -9,9 +9,13 @@ import os
 def tracking_user_dir():
     """这个函数返回跟踪任务的用户名。"""
     f_user_name = raw_input('请输入用户名称： \n')
-    print '\n'
-    os.system('pwd')
-    f_user_dir = raw_input('请输入任务所在文件夹绝对路径： \n')
+    os.system('pwd > .pwd')
+    f_user_dir = raw_input('请输入任务所在文件夹绝对路径(default：当前目录)： \n')
+    if f_user_dir == '':
+        with open('.pwd', 'r') as pwd:
+            f_user_dir = pwd.readline().strip()
+    else:
+        pass
     return f_user_name, f_user_dir
 
 
