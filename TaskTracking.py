@@ -2,8 +2,7 @@
 # coding:utf-8
 
 """这个程序可以跟踪服务器中指定目录（针对一个帐号多用户）VASP任务的状态。
-可以给出任务ID, Status (Queue, Run, Finished (Converged, Non-converged) (红字标出),
-Time Used, Directory."""
+可以给出任务ID, Status (Q, R, F, Time Used, Directory."""
 
 import os
 
@@ -36,7 +35,7 @@ def job_update():
                     if tmp.readline() == '':
                         print '任务%s已完成，让我来更新JobsLog文件。\n' % my_job_id
                         # 更新记录
-                        os.system("sed -i 's/%s/Finished/g' JobsLog" % my_job_status)
+                        os.system("sed -i 's/%s/F/g' JobsLog" % my_job_status)
                     else:
                         pass
             else:
@@ -105,5 +104,5 @@ job_status()
 job_update()
 # 删除临时文件，参数-f表示在文件不存在时不提示
 os.system('rm -f .Job_status .Tmp1 .Dir .Tmp2 .Q_R_F .pwd')
-# 将配置文件configure隐藏
-os.system('mv configure.py .configure.py')
+# 删除配置文件configure.py
+os.system('rm -f configure.py')
