@@ -37,7 +37,6 @@ command = linux_command()
 with open('%s/JobsLog' % user_dir, 'w') as job_log:
     job_log.write('Jobs of %s in directory %s\n\n' % (user_name, user_dir))
     job_log.write("Check jobs' status command: %s\n\n" % command)
-    job_log.write('%-20s%-15s%-15s%s\n' % ('job ID', 'Status', 'Tips', 'Directory'))
+    job_log.write('%-20s%-15s%-20s%s\n' % ('job ID', 'Status', 'Tips', 'Directory'))
     job_log.write('=========================================================================================\n')
     print '\n配置完成，已写入%s/JobsLog文件中。' % user_dir
-

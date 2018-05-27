@@ -44,6 +44,23 @@ def job_dir(job_id):
     return job_directory
 
 
+def file_sort(file_name):
+    """这个程序可以对文件按行排列."""
+    with open(file_name, 'r') as f_file:
+        # 将文件存入列表
+        my_file = f_file.readlines()
+        # 前6行存入file_head
+        file_head = my_file[:6]
+        # 去掉前6行
+        my_file = my_file[6:]
+        # 排序，需要根据具体情况修改‘55’
+        my_file.sort(lambda x, y: cmp(x.strip()[55:], y.strip()[55:]))
+        total_my_file = file_head + my_file
+        with open(file_name, 'w') as Sorted_Joblogs:
+            # 将已排序的内容写入文件
+            Sorted_Joblogs.writelines(total_my_file)
+
+
 def job_update():
     """根据Job_status文件，对JobsLog进行修改。需要针对不同的服务器进行修改。"""
     with open('JobsLog', 'a+') as job_log:
@@ -105,14 +122,14 @@ def job_update():
                                             w_job_log.write(line_1)
                                     # 写入新记录
                                     with open('JobsLog', 'a') as job_log:
-                                        job_log.write('%-20s%-15s%-15s%s\n' % (my_job_id, my_job_status,
+                                        job_log.write('%-20s%-15s%-20s%s\n' % (my_job_id, my_job_status,
                                                                                '', my_job_directory))
                                     print '%s已更新。\n' % my_job_id
                         else:
                             # 任务刚提交
                             print '%s是新任务，让我来记录它。\n' % my_job_id
                             with open('JobsLog', 'a') as job_log:
-                                job_log.write('%-20s%-15s%-15s%s\n' % (my_job_id, my_job_status,
+                                job_log.write('%-20s%-15s%-20s%s\n' % (my_job_id, my_job_status,
                                                                        '', my_job_directory))
                 else:
                     pass
@@ -123,6 +140,7 @@ print '\n这个程序可以跟踪服务器中指定目录（针对一个帐号�
 
 job_status()
 job_update()
+file_sort('JobsLog')
 # 删除临时文件，参数-f表示在文件不存在时不提示
 os.system('rm -f .Job_status .Tmp1 .Tmp2 .Q_R_F .pwd')
 # 删除配置文件configure.py
