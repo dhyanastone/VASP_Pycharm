@@ -63,6 +63,31 @@ def file_sort(file_name):
             Sorted_Joblogs.writelines(total_my_file)
 
 
+def underline_qr(qr):
+    with open(qr, 'r') as q_r:
+        q_r_lines = q_r.readlines()
+    with open(qr, 'w') as q_r:
+        for q_r_line in q_r_lines:
+            q_r.write(q_r_line)
+            if q_r_line[20:24] == 'Q   ':
+                q_r.write('*****************************************************************************************\n')
+            elif q_r_line[20:24] == 'R   ':
+                q_r.write('-----------------------------------------------------------------------------------------\n')
+            else:
+                pass
+
+
+def delete_qr(qr):
+    with open(qr, 'r') as q_r:
+        q_r_lines = q_r.readlines()
+    with open(qr, 'w') as q_r:
+        for q_r_line in q_r_lines:
+            if q_r_line[0:4] == '****' or q_r_line[0:4] == '----':
+                continue
+            else:
+                q_r.write(q_r_line)
+
+
 def job_update():
     """根据Job_status文件，对JobsLog进行修改。需要针对不同的服务器进行修改。"""
     with open('JobsLog', 'a+') as job_log:
@@ -146,8 +171,10 @@ print '\n这个程序可以跟踪服务器中指定目录（针对一个帐号�
       '可以给出任务ID, Status (P, R, F), Tips, Directory.\n'
 
 job_status()
+delete_qr('JobsLog')
 job_update()
 file_sort('JobsLog')
+underline_qr('JobsLog')
 # 删除临时文件，参数-f表示在文件不存在时不提示
 os.system('rm -f .Job_status .Tmp1 .Tmp2 .P_R_F .pwd')
 # 删除配置文件configure.py
