@@ -23,25 +23,19 @@ def job_dir(job_id):
     # 服务器变量$HOME
     my_home = '/home/liuqh'
     # 根据任务号获取任务信息，并写入文件.qstat
-    os.system("bjobs -l %s > .qstat" % job_id)
+    os.system("qstat -f %s > .qstat" % job_id)
     with open('.qstat', 'r') as my_qstat:
         f_lines = my_qstat.readlines()
-        for f_line in f_lines:
-            if 'Submitted' not in f_line:
-                f_lines = f_lines[1:]
-            else:
-                break
         total = []
         for f_line in f_lines:
             total.append(f_line.lstrip().strip())
         # 合并列表中所有字符串
         total = "".join(total)
-        # 以'CWD <$HOME'分割字符串
-        total = total.split('CWD <$HOME')
-        # 以'>,'分割字符串
-        total = total[1].split('>,')
+        # 以'PBS_O_WORKDIR='分割字符串
+        total = total.split('PBS_O_WORKDIR=')
+        # 以','分割字符串
+        total = total[1].split(',')
         job_directory = total[0]
-        job_directory = my_home + job_directory
         os.system('rm -f .qstat')
     return job_directory
 
@@ -69,7 +63,7 @@ def underline_qr(qr):
     with open(qr, 'w') as q_r:
         for q_r_line in q_r_lines:
             q_r.write(q_r_line)
-            if q_r_line[20:24] == 'P   ':
+            if q_r_line[20:24] == 'Q   ':
                 q_r.write('*****************************************************************************************\n')
             elif q_r_line[20:24] == 'R   ':
                 q_r.write('-----------------------------------------------------------------------------------------\n')
@@ -99,7 +93,7 @@ def job_update():
             my_job_id = line.split()[0]
             # 获得任务状态
             my_job_status = line.split()[1]
-            if my_job_status == 'P' or my_job_status == 'R':
+            if my_job_status == 'Q' or my_job_status == 'R':
                 os.system('grep %s .Job_status > .Tmp1' % my_job_id)
                 with open('.Tmp1', 'r') as tmp:
                     if tmp.readline() == '':
@@ -113,7 +107,7 @@ def job_update():
 
     with open('.Job_status', 'r') as jobs_status:
         # 跳过前几行，根据不同服务器修改
-        for i in range(1):
+        for i in range(2):
             jobs_status.readline()
         for line in jobs_status.readlines():
             # 获得任务号
@@ -123,7 +117,7 @@ def job_update():
                 else:
                     my_job_id = line.split()[0]
                     # 获得任务状态
-                    my_job_status = line.split()[2]
+                    my_job_status = line.split()[4]
                     my_job_status = my_job_status[0:1]
                     # 获得任务路径
                     my_job_directory = job_dir(my_job_id)
@@ -178,4 +172,4 @@ underline_qr('JobsLog')
 # 删除临时文件，参数-f表示在文件不存在时不提示
 os.system('rm -f .Job_status .Tmp1 .Tmp2 .P_R_F .pwd')
 # 删除配置文件configure.py
-os.system('rm -f configure_sustc_group.py')
+os.system('rm -f configure_sustc.py')
