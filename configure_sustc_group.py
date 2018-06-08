@@ -21,7 +21,11 @@ def tracking_user_dir():
 
 def linux_command():
     """这个函数返回查看任务运行状态的命令。"""
-    f_command = raw_input('请输入查看任务运行状态的命令(kan)： \n')
+    f_command = raw_input('请输入查看任务运行状态的命令(default: bjobs)： \n')
+    if f_command == '':
+        f_command = 'bjobs'
+    else:
+        pass
     return f_command
 
 
@@ -40,3 +44,4 @@ with open('%s/JobsLog' % user_dir, 'w') as job_log:
     job_log.write('%-20s%-15s%-20s%s\n' % ('job ID', 'Status', 'Tips', 'Directory'))
     job_log.write('=========================================================================================\n')
     print '\n配置完成，已写入%s/JobsLog文件中。' % user_dir
+
