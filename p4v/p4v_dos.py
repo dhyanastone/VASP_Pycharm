@@ -49,9 +49,9 @@ with open(p4v_dos, 'r') as p4v_dos_file:
         p4v_dos_file.readline()
 
 # write data
-p4v_dos_split = raw_input('Please input file name which you want to save dos data (default: p4v_dos_split):')
+p4v_dos_split = raw_input('Please input file name which you want to save dos data (default: p4vasp_band):')
 if p4v_dos_split == '':
-    p4v_dos_split = 'p4v_dos_split'
+    p4v_dos_split = 'p4vasp_band'
 else:
     pass
 with open(p4v_dos_split, 'w') as p4v_dos_split_file:

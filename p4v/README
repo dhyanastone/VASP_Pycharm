@@ -1,0 +1,4 @@
+Script 'p4v_band.py' can rewrite p4vasp output file band.dat in a format which is convinent to plot with gnuplot.
+See 'Si_band.dat' (input) and 'Si_band.dat.out' (output) for details.
+Useful gnuplot command maybe:
+plot 'Si_band.dat.out' u 1:2:3 with points pt 5 ps variable, '' u 1:2:4 with points pt 7 ps variable
