@@ -51,13 +51,9 @@ def get_eig(outcar, f_nkpoints, f_spin, f_band_no):
     if f_spin == 1:
         os.system("grep '  %s  ' %s | head -n %s | awk '{print $2}' > .eig"
                   % (str(f_band_no), outcar, str(f_nkpoints)))
-        print 'spin = 1'
-        print "grep '  %s  ' %s | tail -n %s | awk '{print $2}' > .eig" % (str(f_band_no), outcar, str(f_nkpoints))
     else:
         os.system("grep '  %s  ' %s | tail -n %s | awk '{print $2}' > .eig"
                   % (str(f_band_no), outcar, str(f_nkpoints)))
-        print 'spin = 2'
-        print "grep '  %s  ' %s | tail -n %s | awk '{print $2}' > .eig" % (str(f_band_no), outcar, str(f_nkpoints))
     f_eig = []
     with open('.eig', 'r') as eig_file:
         for f_j in range(f_nkpoints):
@@ -73,10 +69,9 @@ weight_sum, weight = get_kpoints_weight('OUTCAR', nkpoints)
 print 'ISPIN = %d, NELECT = %f\n' % (ispin, nelect)
 band_no = int(raw_input('Please input band NO.(Hint: NELECT/2):\n'))
 spin = int(raw_input('Please input spin component (Hint 1 or 2):\n'))
-print type(band_no), band_no, type(spin), spin
 eig = get_eig('OUTCAR', nkpoints, spin, band_no)
 eigenvalue = 0
 for i in range(nkpoints):
     eigenvalue = eigenvalue + float(eig[i]) * float(weight[i])
 eigenvalue_norm = eigenvalue / float(weight_sum)
-print 'Eigenvalue of band %d spin component %d is %f' % (band_no, spin, eigenvalue_norm)
+print 'Eigenvalue of band %d spin component %d is %f eV.\n' % (band_no, spin, eigenvalue_norm)
