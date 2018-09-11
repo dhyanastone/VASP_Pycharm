@@ -76,11 +76,11 @@ nkpts, nbands = get_nkpts_nbands('OUTCAR')
 weight_sum, weight = get_kpoints_weight('OUTCAR', nkpts)
 print 'ISPIN = %d, NELECT = %f, NKPTS = %d, NBANDS = %d\n' % (ispin, nelect, nkpts, nbands)
 band_no = int(raw_input('Please input band NO.(Hint: NELECT/2):\n'))
-spin = int(raw_input('Please input spin component (Hint 1 or 2):\n'))
+spin = int(raw_input('\nPlease input spin component (Hint 1 or 2):\n'))
 eig = get_eig('OUTCAR', ispin, nkpts, nbands, spin, band_no)
 eigenvalue = 0.0
 for i in range(nkpts):
     eigenvalue = eigenvalue + float(eig[i]) * float(weight[i])
 eigenvalue_norm = eigenvalue / float(weight_sum)
-print 'Eigenvalue of band %d spin component %d is %f eV.\n' % (band_no, spin, eigenvalue_norm)
+print '\nEigenvalue of band %d spin component %d is %f eV.\n' % (band_no, spin, eigenvalue_norm)
 os.system("rm -f .eig .eig_file .ispin .nelect .nkpts_nbands .weight .weight_sum")
