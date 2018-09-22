@@ -35,12 +35,10 @@ def get_eig(outcar, f_ispin, f_nkpts, f_nbands, f_spin, f_band_no):
     os.system("grep -A %s 'E-fermi' %s > .eig_file"
               % (str(f_ispin * f_nkpts * (f_nbands + 3) + 6), outcar))
     if f_ispin == 1:
-        # To write#################
-        pass
-        ###########################
+        os.system("grep '^[ ]*%s  ' .eig_file | awk '{print $2}' > .eig" % str(f_band_no))
     else:
         if f_spin == 1:
-            # do not use 'head' to pick, use '-m', search 'grep: write error: Broken pipe' (Evernote)
+            # do not use 'head' to pick, use '-m', search 'grep: write error: Broken pipe' (see Evernote)
             os.system("grep '^[ ]*%s  ' .eig_file -m %s | awk '{print $2}' > .eig"
                       % (str(f_band_no), str(f_nkpts)))
         else:
@@ -59,7 +57,7 @@ nelect = get_nelect('OUTCAR')
 nkpts, nbands = get_nkpts_nbands('OUTCAR')
 print 'ISPIN = %d, NELECT = %f, NKPTS = %d, NBANDS = %d\n' % (ispin, nelect, nkpts, nbands)
 band_no = int(raw_input('Please input band NO.(Hint: NELECT/2):\n'))
-spin = int(raw_input('\nPlease input spin component (Hint: 1 or 2):\n'))
+spin = int(raw_input('\nPlease input spin component (Hint: 0 (spin unpolarized), 1 or 2):\n'))
 eig = get_eig('OUTCAR', ispin, nkpts, nbands, spin, band_no)
 print '\n(minimum, maximum) of band %d spin component %d is (%f, %f) eV.\n' % (band_no, spin, min(eig), max(eig))
 os.system("rm -f .eig .eig_file .ispin .nelect .nkpts_nbands")
