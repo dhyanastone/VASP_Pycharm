@@ -1,0 +1,34 @@
+********************************************************
+* Function:                                            *
+*                                                      *
+* Track and record your jobs on supercomputers.        *
+*                                                      *
+********************************************************
+
+
+********************************************************
+* Usage:                                               *
+*                                                      *
+* 1. Copy "TaskTracking_....py" and corresponding      *
+*    "configure_....py" to your job fold.              *
+*                                                      *
+* 2. Make the scripts executable (chmod +x filemane).  *
+*                                                      *
+* 3. ./configure_....py, input according to the screen *
+*     hints.                                           *
+*                                                      *  
+* 4. ./TaskTracking_....py, it will create a file named*
+*    "JobsLog".                                        *
+*                                                      *  
+* 5. From now on, just type ./TaskTracking_....py, and *
+*    view "JobsLog" to check you jobs' status          *
+********************************************************
+
+
+********************************************************
+* Notes:                                               *
+*                                                      *
+* Maybe you have to modify the scripts according to    *
+* your supercomputer. Don't worry, it's easy, just     *
+* follow the comments in the scripts.                  *
+******************************************************** 
